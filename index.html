@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Reminder App with Notifications</title>
+		<link rel="stylesheet" href="./style.css" />
+	</head>
+	<body>
+		<h1>Reminder App with Notifications:</h1>
+		<div class="action-aria">
+			<textarea
+				type="text"
+				class="message"
+				rows="3"
+				cols="50"
+				id="reminder-message"
+				placeholder="Reminder message"
+			></textarea>
+			<div class="right">
+				<input
+					class="input-date"
+					type="datetime-local"
+					id="reminder-time"
+				/>
+				<button class="addReminder" onclick="addReminder()">
+					Add Remind
+				</button>
+			</div>
+		</div>
+		<div id="reminders-list"></div>
+
+		<script src="app.js"></script>
+	</body>
+</html>
