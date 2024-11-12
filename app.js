@@ -80,7 +80,7 @@ function displayReminder(reminder) {
 
 	// Card content
 	reminderCard.innerHTML = `
-    <span>${formattedDate} ${formattedTime} - ${reminder.message}</span>
+    <span style='font-size:20px'>${formattedDate} <span style="color:green; font-size:35px"> ⇒ </span> ${formattedTime}<span style="color:green; font-size:35px"> ⇒ </span> ${reminder.message}</span>
     <button class="delete-btn" onclick="deleteReminder(${reminder.id})">X</button>
   `;
 
@@ -111,6 +111,7 @@ function scheduleNotification(reminder) {
 		setTimeout(() => {
 			showNotification(reminder);
 			markNotified(reminder.id);
+			window.location.reload();
 		}, timeDifference);
 	}
 }
