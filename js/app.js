@@ -76,12 +76,24 @@ function displayReminder(reminder) {
 	// Date and time formatting
 	const date = new Date(reminder.time);
 	const formattedDate = date.toISOString().split('T')[0];
-	const formattedTime = date.toTimeString().split(' ')[0].substring(0, 5);
+	const formattedTimeHr = date.getHours();
+	const formattedTimeMin = date.getMinutes();
+	// toTimeString().split(' ')[0].substring(0, 5);
+	console.log(formattedTimeMin);
+	console.log(formattedTimeHr > 12 ? formattedTimeHr - 12 : formattedTimeHr);
 
 	// Card content
 	reminderCard.innerHTML = `
-    <span style='font-size:20px'>${formattedDate} <span style="color:green; font-size:35px"> ⇒ </span> ${formattedTime}<span style="color:green; font-size:35px"> ⇒ </span> ${reminder.message}</span>
-    <button class="delete-btn" onclick="deleteReminder(${reminder.id})">X</button>
+    <span style='font-size:20px'>${formattedDate} <span style="color:green; font-size:35px"> ⇒ </span> ${
+		formattedTimeHr > 12 ? formattedTimeHr - 12 : formattedTimeHr
+	} : ${formattedTimeMin} ${
+		formattedTimeHr > 12 ? ' PM' : ' AM'
+	}<span style="color:green; font-size:35px"> ⇒ </span> ${
+		reminder.message
+	}</span>
+    <button class="delete-btn" onclick="deleteReminder(${
+		reminder.id
+	})">X</button>
   `;
 
 	remindersList.appendChild(reminderCard);
@@ -89,12 +101,17 @@ function displayReminder(reminder) {
 
 // Delete reminder by ID
 function deleteReminder(id) {
-	const reminders = getReminders().filter((reminder) => reminder.id !== id);
-	localStorage.setItem('reminders', JSON.stringify(reminders));
+	if (confirm('Are you sure ? you want to delete!')) {
+		const reminders = getReminders().filter(
+			(reminder) => reminder.id !== id
+		);
+		localStorage.setItem('reminders', JSON.stringify(reminders));
+		window.location.reload();
 
-	const reminderCard = document.getElementById(`reminder-${id}`);
-	if (reminderCard) {
-		reminderCard.remove();
+		const reminderCard = document.getElementById(`reminder-${id}`);
+		if (reminderCard) {
+			reminderCard.remove();
+		}
 	}
 }
 
@@ -121,7 +138,7 @@ function showNotification(reminder) {
 	if (Notification.permission === 'granted') {
 		new Notification('Reminder', {
 			body: reminder.message,
-			icon: './image.png',
+			icon: './img/alert.png',
 		});
 	} else {
 		alert(reminder.message);
