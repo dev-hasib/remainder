@@ -55,13 +55,15 @@ function getReminders() {
 // Load reminders from localStorage and display them
 function loadReminders() {
 	const reminders = getReminders();
-	reminders.forEach((reminder) => {
-		displayReminder(reminder);
-		// Schedule notification if not yet notified
-		if (!reminder.notified) {
-			scheduleNotification(reminder);
-		}
-	});
+	reminders
+		.sort((a, b) => a.id - b.id)
+		.forEach((reminder) => {
+			displayReminder(reminder);
+			// Schedule notification if not yet notified
+			if (!reminder.notified) {
+				scheduleNotification(reminder);
+			}
+		});
 }
 
 // Display a reminder card
@@ -96,7 +98,8 @@ function displayReminder(reminder) {
 	})">X</button>
   `;
 
-	remindersList.appendChild(reminderCard);
+	// remindersList.appendChild(reminderCard);
+	remindersList.insertBefore(reminderCard, remindersList.children[0]);
 }
 
 // Delete reminder by ID
